@@ -11,7 +11,7 @@ module.exports.AdminLogin = async (req, res) => {
                 message: "insucefficent parameter"
             })
         }
-        var SECRET_KEY = "dkjghkdghfhglknghdxlkdnflsfjopoijoigjhpokp"
+        var SECRET_KEY = process.env.SECRET_KEY
         let checkuser = await model.CheckAdmin(email, role);
 
         if (checkuser.length > 0) {

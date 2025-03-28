@@ -19,13 +19,13 @@ module.exports.AddBanner = async (req, res) => {
                 var oldPath = files.image.filepath;
                 var newPath =
                     process.cwd() +
-                    "/Ajwa/uploads/banner/" +
+                    "/uploads/banner/" +
                     files.image.originalFilename;
                 let rawData = fs.readFileSync(oldPath);
                 fs.writeFile(newPath, rawData, async function (err) {
                     if (err) console.log(err);
                     let filepathh =
-                        "/Ajwauploads/banner/" + files.image.originalFilename;
+                        "/uploads/banner/" + files.image.originalFilename;
                     let AddBanner = await model.AddBannerQuery(filepathh)
                     console.log(AddBanner.insertId, "AddBanner");
 

@@ -2,10 +2,10 @@ var mysql = require("mysql");
 // Initialize pool
 var pool = mysql.createPool({
   connectionLimit: 10,
-  host: "srv1132.hstgr.io",
-  user: "u160357475_fish",
-  password: "123abcAB@123",
-  database: "u160357475_fish",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
 });
 
 pool.getConnection((err, connection) => {

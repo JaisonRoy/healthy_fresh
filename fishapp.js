@@ -19,9 +19,10 @@ var server = http.createServer(app);
 app.use(
     bodyparser.urlencoded({
         extended: false,
+        limit:'20mb'
     })
 );
-app.use(bodyparser.json());
+app.use(bodyparser.json({limit:'20mb'}));
 app.use(cors());
 app.use(express.static('./'));
 app.all("/*", function (req, res, next) {

@@ -80,12 +80,12 @@ module.exports.EditProduct = async (req, res) => {
                         var oldPath = files.image.filepath;
                         var newPath =
                             process.cwd() +
-                            "/uploads/products/" + files.image.originalFilename
+                            "/uploads/product/" + files.image.originalFilename
                         let rawData = fs.readFileSync(oldPath);
                         console.log(oldPath);
 
                         fs.writeFileSync(newPath, rawData)
-                        var image = "/uploads/products/" + files.image.originalFilename
+                        var image = "/uploads/product/" + files.image.originalFilename
                         // console.log(name, price, image, description, stocks, quantity, unit);
 
                         var Insertproductimage = await model.Updateimage(image, p_id)

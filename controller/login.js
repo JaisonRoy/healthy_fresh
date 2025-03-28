@@ -12,7 +12,7 @@ module.exports.Login = async (req, res) => {
                 message: "insucefficent parameter"
             })
         }
-        SECRET_KEY = "dkjghkdghfhglknghdxlkdnflsfjopoijoigjhpokp"
+        let SECRET_KEY = process.env.SECRET_KEY
         let checkuser = await model.CheckUSer(email, role);
 
         if (checkuser.length > 0) {

@@ -30,13 +30,13 @@ module.exports.AddProducts = async (req, res) => {
                     var oldPath = files.image.filepath;
                     var newPath =
                         process.cwd() +
-                        "/Ajwa/uploads/products/" +
+                        "/uploads/product/" +
                         files.image.originalFilename;
                     let rawData = fs.readFileSync(oldPath);
                     fs.writeFile(newPath, rawData, async function (err) {
                         if (err) console.log(err);
                         let imagepath =
-                            "/Ajwa/uploads/products/" + files.image.originalFilename;
+                            "/uploads/product/" + files.image.originalFilename;
                         let Addproduct = await model.AddProductQuery(category, name, imagepath, price, discount_price, description, stocks)
                         console.log(Addproduct.insertId, "Addproduct");
 
