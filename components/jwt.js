@@ -14,7 +14,6 @@ const verifyToken = (req, res, next) => {
         }
 
         req.user = decoded
-        console.log(req.user);
         next();
     });
 };

@@ -32,9 +32,7 @@ module.exports.Login = async (req, res) => {
                     email: checkuser[0].u_email,
                     mobile: checkuser[0].u_mobile,
                     user_token: token
-
                 })
-
             } else {
                 return res.send({
                     result: false,

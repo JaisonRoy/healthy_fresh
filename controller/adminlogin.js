@@ -15,7 +15,6 @@ module.exports.AdminLogin = async (req, res) => {
         let checkuser = await model.CheckAdmin(email, role);
 
         if (checkuser.length > 0) {
-
             let Checkpassword = await bcrypt.compare(password, checkuser[0].u_password);
             if (Checkpassword == true) {
                 const payload = {

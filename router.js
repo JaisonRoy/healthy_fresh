@@ -1,6 +1,6 @@
 var express = require("express");
 var route = express.Router();
-var { VerifyToken } = require('./components/jwt')
+var { verifyToken } = require('./components/jwt')
 
 
 var { Register } = require('./controller/register')
@@ -80,5 +80,11 @@ route.post('/list/order', ListOrder)
 
 var { DeliveryStatus } = require('./controller/deliverystatus')
 route.post('/delivery-status', DeliveryStatus)
+
+let { AddSubCategory, EditSubCategory, ListSubCategory, DeleteSubCategory } = require('./controller/subCategory')
+route.post('/add/subcategory', verifyToken, AddSubCategory)
+route.put('/edit/subcategory', verifyToken, EditSubCategory)
+route.get('/subcategory', verifyToken, ListSubCategory)
+route.delete('/delete/subcategory', verifyToken, DeleteSubCategory)
 
 module.exports = route;

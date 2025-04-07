@@ -11,7 +11,6 @@ module.exports.Register = async (req, res) => {
                 message: "insucefficent parametert"
             })
         }
-
         let checkmail = await model.CheckmailQuery(email);
         if (checkmail.length > 0) {
             return res.send({
@@ -21,7 +20,6 @@ module.exports.Register = async (req, res) => {
         } else {
             var hashedpassword = await bcrypt.hash(password, 10)
             let insertuser = await model.InsertUserQuery(name, email, hashedpassword);
-
             if (insertuser.affectedRows > 0) {
                 return res.send({
                     result: true,
@@ -39,6 +37,5 @@ module.exports.Register = async (req, res) => {
             result: false,
             message: error.message
         })
-
     }
 }
