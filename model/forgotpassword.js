@@ -21,7 +21,12 @@ module.exports.StoreResetToken = async (token, expirationDate, u_id) => {
 };
 
 module.exports.ValidateResetToken = async (email, token) => {
-    var Query = `SELECT u_token, u_token_expiry FROM user WHERE u_email = ? AND u_token = ?`;
+    var Query = `SELECT u_token, u_token_expiry FROM user WHERE u_email = ? AND u_token = ? and otp_status="unverified"`;
     var data = await query(Query, [email, token]);
     return data;
 };
+
+module.exports.updateOtpStatus = async (email, status) => {
+    let Query = `update user set otp_status=? where u_email=?`
+    return await query(Query, [status, email])
+}

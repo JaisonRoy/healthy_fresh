@@ -98,8 +98,7 @@ module.exports.ForgotPassword = async (req, res) => {
 `
             });
             nodemailer.getTestMessageUrl(infos);
-
-
+            await model.updateOtpStatus(email, "unverified")
             return res.send({
                 result: true,
                 message: "Password reset email sent "
@@ -131,17 +130,16 @@ module.exports.verifyOtp = async (req, res) => {
                 message: "email and otp is required"
             })
         }
-
         let tokenInfo = await model.ValidateResetToken(email, otp);
         const tokenExpiry = moment(tokenInfo[0].u_token_expiry)
         const date = moment().isAfter(tokenExpiry);
-
         if (tokenInfo.length === 0 || date == true) {
             return res.send({
                 result: false,
                 message: "Invalid otp"
             })
         } else {
+            await model.updateOtpStatus(email, "verified")
             return res.send({
                 result: true,
                 message: "OTP verified successfully"
