@@ -66,11 +66,11 @@ route.post('/edit/profile', EditProfile)
 var { ForgotPassword } = require('./controller/forgotpassword')
 route.post('/forgotpassword', ForgotPassword)
 
-var { ChangePassword } = require('./controller/forgotpassword')
-route.get('/change-password/:u_id/:token', ChangePassword)
+var { verifyOtp } = require('./controller/forgotpassword')
+route.post('/verify-otp', verifyOtp)
 
 var { ResetPassword } = require('./controller/forgotpassword')
-route.get('/reset-password/:u_id/:password', ResetPassword)
+route.post('/reset-password', ResetPassword)
 
 var { AddOrder } = require('./controller/addorder')
 route.post('/add/order', AddOrder)

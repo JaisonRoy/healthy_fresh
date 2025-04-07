@@ -8,9 +8,9 @@ module.exports.CheckEmailQuery = async (email, role) => {
     return data;
 };
 
-module.exports.UpdatePassword = async (password, u_id) => {
-    var Query = `update user set u_password=? where u_id =?`;
-    var data = await query(Query, [password, u_id]);
+module.exports.UpdatePassword = async (password, email) => {
+    var Query = `update user set u_password=? where u_email =?`;
+    var data = await query(Query, [password, email]);
     return data;
 };
 
@@ -20,8 +20,8 @@ module.exports.StoreResetToken = async (token, expirationDate, u_id) => {
     return data;
 };
 
-module.exports.ValidateResetToken = async (u_id, token) => {
-    var Query = `SELECT u_token, u_token_expiry FROM user WHERE u_id = ? AND u_token = ?`;
-    var data = await query(Query, [u_id, token]);
+module.exports.ValidateResetToken = async (email, token) => {
+    var Query = `SELECT u_token, u_token_expiry FROM user WHERE u_email = ? AND u_token = ?`;
+    var data = await query(Query, [email, token]);
     return data;
 };
