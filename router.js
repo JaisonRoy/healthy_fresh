@@ -2,7 +2,6 @@ var express = require("express");
 var route = express.Router();
 var { verifyToken } = require('./components/jwt')
 
-
 var { Register } = require('./controller/register')
 route.post('/user/register', Register)
 
@@ -17,6 +16,9 @@ route.post('/list/products', ListProducts)
 
 var { AddCategory } = require('./controller/addcategory')
 route.post('/add/category', AddCategory)
+
+var { EditCategory } = require('./controller/adEditCategory')
+route.post('/edit/category', EditCategory)
 
 var { ListCategory } = require('./controller/listcategory')
 route.post('/list/category', ListCategory)

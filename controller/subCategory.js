@@ -21,10 +21,10 @@ module.exports.AddSubCategory = async (req, res) => {
                 })
             }
             let categoryExist = await model.CheckAlreadyExists(name)
-            if (categoryExist) {
+            if (categoryExist.length>0) {
                 return res.send({
                     result: false,
-                    message: "Category already exist"
+                    message: "Category already exist with same name"
                 })
             }
             let imagepath = null
