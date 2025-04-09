@@ -14,8 +14,14 @@ module.exports.AddBanner = async (req, res) => {
                 });
             }
             console.log(files.image);
-
-            if (files) {
+            let { banner_description } = fields
+            if (!banner_description) {
+                return res.send({
+                    result: false,
+                    message: "please fill all the fields",
+                });
+            }
+            if (files.image) {
                 var oldPath = files.image.filepath;
                 var newPath =
                     process.cwd() +
@@ -26,19 +32,19 @@ module.exports.AddBanner = async (req, res) => {
                     if (err) console.log(err);
                     let filepathh =
                         "/uploads/banner/" + files.image.originalFilename;
-                    let AddBanner = await model.AddBannerQuery(filepathh)
+                    let AddBanner = await model.AddBannerQuery(filepathh, banner_description)
                     console.log(AddBanner.insertId, "AddBanner");
 
                 })
                 return res.send({
                     result: true,
-                    message: "image upload successfully"
+                    message: "banner upload successfully"
                 });
 
             } else {
                 return res.send({
                     result: true,
-                    message: "image upload failed"
+                    message: "banner upload failed"
                 })
 
             }
