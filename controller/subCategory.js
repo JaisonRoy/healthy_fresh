@@ -21,10 +21,10 @@ module.exports.AddSubCategory = async (req, res) => {
                 })
             }
             let categoryExist = await model.CheckAlreadyExists(name)
-            if (categoryExist.length>0) {
+            if (categoryExist.length > 0) {
                 return res.send({
                     result: false,
-                    message: "Category already exist with same name"
+                    message: "Category already exist"
                 })
             }
             let imagepath = null
@@ -130,7 +130,12 @@ module.exports.EditSubCategory = async (req, res) => {
 
 module.exports.ListSubCategory = async (req, res) => {
     try {
-        let subCategories = await model.ListAllSubcategories()
+        let { category_id } = req.headers
+        let condition = ''
+        if (category_id) {
+            condition = `ehere sc_category_id ='${category_id}'`
+        }
+        let subCategories = await model.ListAllSubcategories(condition)
         if (subCategories.length > 0) {
             return res.send({
                 result: true,

@@ -23,8 +23,8 @@ module.exports.UpdateSubCategoryData = async (name, imagepath, category_id, subC
     return await query(Query, [name, imagepath, category_id, subCategory_id])
 }
 
-module.exports.ListAllSubcategories = async () => {
-    let Query = `select * from sub_category`
+module.exports.ListAllSubcategories = async (condition) => {
+    let Query = `select * from sub_category ${condition}`
     return await query(Query)
 }
 
