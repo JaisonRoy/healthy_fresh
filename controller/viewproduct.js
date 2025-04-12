@@ -10,23 +10,31 @@ module.exports.ViewProduct = async (req, res) => {
             })
         }
         let productview = await model.ProductView(p_id);
+        if (productview.length > 0) {
 
-        var category_id = productview[0].p_c_id
 
-        similar_products = await model.SimilarProducts(category_id)
+            let category_id = productview[0]?.p_c_id
 
-        if (similar_products.length > 0) {
-            return res.send({
-                result: true,
-                message: "data retrived",
-                list: productview,
-                similar: similar_products
-            })
+            similar_products = await model.SimilarProducts(category_id)
 
+            if (similar_products.length > 0) {
+                return res.send({
+                    result: true,
+                    message: "data retrived",
+                    list: productview,
+                    similar: similar_products
+                })
+
+            } else {
+                return res.send({
+                    result: false,
+                    message: "failed to retrive data"
+                })
+            }
         } else {
             return res.send({
                 result: false,
-                message: "failed to retrive data"
+                message: "Product not found"
             })
         }
     } catch (error) {

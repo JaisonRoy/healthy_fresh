@@ -7,7 +7,7 @@ module.exports.ListAddress = async (req, res) => {
         if (!u_id) {
             return res.send({
                 result: false,
-                message: "insucefficent parameter"
+                message: "user id is required"
             })
         }
         let checkuser = await model.CheckUser(u_id);

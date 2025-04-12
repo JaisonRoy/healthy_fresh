@@ -14,55 +14,61 @@ module.exports.AddOrder = async (req, res) => {
                 pass: 'support123abcAB@',
             },
         });
-        var { u_id, amount, payment_method, user_name, user_email, user_mobile_no, user_address, user_city, user_zipcode, product_details } = req.body;
-        if (!u_id || !amount || !payment_method || !user_name || !user_email || !user_mobile_no || !user_address || !user_city || !user_zipcode || !product_details) {
+        var { u_id, amount, payment_method, user_name, user_email, user_mobile_no, user_address, user_state, user_district, user_city, user_zipcode, product_details } = req.body;
+        if (!u_id || !amount || !payment_method || !user_name || !user_email || !user_mobile_no || !user_address || !user_state || !user_district || !user_city || !user_zipcode || !product_details) {
             return res.send({
                 result: false,
                 messagae: "insufficent parameter"
             })
         }
-        let date = moment().format("YYYY-MM-DD");
-        var addorder = await model.AddOrderquery(u_id, amount, date, payment_method, user_name, user_email, user_mobile_no, user_address, user_city, user_zipcode);
-        // console.log(addorder.insertId, "orderid");
+        if (payment_method == "cash on delivery") {
+            let date = moment().format("YYYY-MM-DD");
+            var addorder = await model.AddOrderquery(u_id, amount, date, payment_method, user_name, user_email, user_mobile_no, user_address, user_state, user_district, user_city, user_zipcode);
+            // console.log(addorder.insertId, "orderid");
 
-        if (addorder.affectedRows) {
-            var products = product_details
-            // console.log(products);
-            var tablehtml = "";
-            // const products = await JSON.parse(products_detail);
-            await Promise.all(
-                products.map(async (element) => {
+            if (addorder.affectedRows) {
+                var products = product_details
+                // console.log(products);
+                var tablehtml = "";
+                // const products = await JSON.parse(products_detail);
+                await Promise.all(
+                    products.map(async (element) => {
 
-                    var insertproduct = await model.ProductInsert(
-                        addorder.insertId,
-                        element)
+                        var insertproduct = await model.ProductInsert(
+                            addorder.insertId,
+                            element)
 
-                    console.log(element.product_id);
+                        console.log(element.product_id);
 
-                    let checkproduct = await model.getproduct(element.product_id);
-                    // console.log(checkproduct);
-                    if (checkproduct.length > 0) {
+                        let checkproduct = await model.getproduct(element.product_id);
+                        // console.log(checkproduct);
+                        if (checkproduct.length > 0) {
 
-                        var balancestock = checkproduct[0].p_stocks - element.quantity
-                        console.log(balancestock);
-                        let addstock = await model.AddStocks(balancestock, element.product_id)
+                            var balancestock = checkproduct[0].p_stocks - element.quantity
+                            console.log(balancestock);
+                            let addstock = await model.AddStocks(balancestock, element.product_id)
 
-                        tablehtml += `<tr><td>${checkproduct[0].p_name}</td><td>${checkproduct[0].p_discount_price}</td></td><td>${element.quantity}</td><td>${parseFloat(checkproduct[0].p_discount_price) *
-                            parseFloat(element.quantity)}</tr>`;
-                    } else {
-                        return res.send({
-                            result: false,
-                            message: "product not found"
-                        })
-                    }
-                }));
+                            tablehtml += `<tr>
+                        <td>${checkproduct[0].p_name}</td>
+                        <td>${checkproduct[0].p_discount_price}</td>
+                        <td>${element.quantity}</td>
+                        <td>${parseFloat(checkproduct[0].p_discount_price) *
+                                parseFloat(element.quantity)}</td>
+                            </tr>`;
+                        } else {
+                            return res.send({
+                                result: false,
+                                message: "product not found"
+                            })
+                        }
+                    }));
 
-            if (payment_method == "cash on delivery") {
+                if (payment_method == "cash on delivery") {
 
-                let data = [{
-                    email: user_email,
-                    subject: "MESSAGE FROM AJWA Supermarket",
-                    html: `<!DOCTYPE html>
+                    let data = [{
+                        email: user_email,
+                        subject: "HEALTHY FRESH ORDER",
+                        html: `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -151,43 +157,49 @@ module.exports.AddOrder = async (req, res) => {
 `}
 
 
-                ]
-                let output = await Promise.all(
-                    data.map(async (element) => {
-                        let info = await transporter.sendMail({
-                            from: "AJWA Supermarket <support@choiceglobal.in>",
-                            to: element.email,
-                            subject: element.subject,
-                            html: element.html,
-                        });
+                    ]
+                    let output = await Promise.all(
+                        data.map(async (element) => {
+                            let info = await transporter.sendMail({
+                                from: "HEALTHY FRESH <support@choiceglobal.in>",
+                                to: element.email,
+                                subject: element.subject,
+                                html: element.html,
+                            });
 
-                        nodemailer.getTestMessageUrl(info);
-                        // console.log(info, "check");
-                        return true;
-                    })
-                );
-                if (output.length > 0) {
-                    return res.send({
-                        result: true,
-                        message: "order added successfully",
-                    });
+                            nodemailer.getTestMessageUrl(info);
+                            // console.log(info, "check");
+                            return true;
+                        })
+                    );
+                    if (output.length > 0) {
+                        return res.send({
+                            result: true,
+                            message: "order added successfully",
+                        });
+                    } else {
+                        return res.send({
+                            result: false,
+                            message: "order not confirmed ,pls try again",
+                        });
+                    }
                 } else {
                     return res.send({
                         result: false,
-                        message: "order not confirmed ,pls try again",
-                    });
+                        message: "online payment not avilable "
+                    })
                 }
+
             } else {
                 return res.send({
                     result: false,
-                    message: "online payment not avilable "
+                    message: "failed to order product "
                 })
             }
-
         } else {
             return res.send({
                 result: false,
-                message: "failed to order product "
+                message: "online payment not avilable "
             })
         }
     } catch (error) {

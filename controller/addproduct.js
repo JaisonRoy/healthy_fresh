@@ -13,20 +13,18 @@ module.exports.AddProducts = async (req, res) => {
                     data: err,
                 });
             }
-            var { category, name, price, discount_price, description, stocks } = fields;
-            if (!category || !name || !price || !discount_price || !description || !stocks) {
+            var { category, subcategory, name, price, discount_price, unit, description, stocks } = fields;
+            if (!category || !subcategory || !name || !price || !discount_price || !unit || !description || !stocks) {
                 return res.send({
                     result: false,
                     message: "insufficent parameter"
                 })
             }
 
-
             var checkproduct = await model.CheckProduct(name)
 
-
             if (checkproduct.length == 0) {
-                if (files) {
+                if (files.image) {
                     var oldPath = files.image.filepath;
                     var newPath =
                         process.cwd() +
@@ -37,7 +35,7 @@ module.exports.AddProducts = async (req, res) => {
                         if (err) console.log(err);
                         let imagepath =
                             "/uploads/product/" + files.image.originalFilename;
-                        let Addproduct = await model.AddProductQuery(category, name, imagepath, price, discount_price, description, stocks)
+                        let Addproduct = await model.AddProductQuery(category, subcategory, name, imagepath, price, discount_price, unit, description, stocks)
                         console.log(Addproduct.insertId, "Addproduct");
 
                     })
@@ -49,7 +47,7 @@ module.exports.AddProducts = async (req, res) => {
                 } else {
                     return res.send({
                         result: true,
-                        message: "failed to add product"
+                        message: "image is required"
                     })
 
                 }

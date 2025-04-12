@@ -2,9 +2,7 @@ var model = require("../model/addfav");
 
 module.exports.AddFav = async (req, res) => {
   try {
-    var fav = req.body.fav;
-    var user_id = req.body.user_id;
-    var p_id = req.body.p_id;
+    var { user_id, p_id, fav } = req.body;
     // var Id = req.body.Id;
     let checkuser = await model.CheckUser(user_id);
 

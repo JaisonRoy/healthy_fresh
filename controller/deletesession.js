@@ -4,9 +4,9 @@ module.exports.DeleteSection = async (req, res) => {
 
     try {
         var c_id = req.body.c_id;
-
         var b_id = req.body.b_id;
         var p_id = req.body.p_id;
+
         var ct_id = req.body.ct_id;
         var ua_id = req.body.ua_id;
 
@@ -23,19 +23,62 @@ module.exports.DeleteSection = async (req, res) => {
 
             }
         }
+
         if (b_id) {
-            var deletesection = await model.RemoveBannerQuery(b_id);
+            let checkbanner = await model.CheckBannerQuery(b_id);
+            if (checkbanner.length == 0) {
+                return res.send({
+                    result: false,
+                    message: "banner not found"
+                });
+            } else {
+
+                var deletesection = await model.RemoveBannerQuery(b_id);
+
+            }
         }
+
+
+
         if (p_id) {
-            var deletesection = await model.RemoveproductQuery(p_id);
+            let checkproduct = await model.CheckproductQuery(p_id);
+            if (checkproduct.length == 0) {
+                return res.send({
+                    result: false,
+                    message: "product not found"
+                });
+            } else {
+
+                var deletesection = await model.RemoveproductQuery(p_id);
+
+            }
         }
-
-
         if (ct_id) {
-            var deletesection = await model.RemoveCartQuery(ct_id);
+            let checkcart = await model.CheckCartQuery(ct_id);
+            if (checkcart.length == 0) {
+                return res.send({
+                    result: false,
+                    message: "cart details not found"
+                });
+            } else {
+
+                var deletesection = await model.RemoveCartQuery(ct_id);
+
+            }
         }
+
         if (ua_id) {
-            var deletesection = await model.RemoveAddressQuery(ua_id);
+            let checkaddress = await model.CheckAddressQuery(ua_id);
+            if (checkaddress.length == 0) {
+                return res.send({
+                    result: false,
+                    message: "address not found"
+                });
+            } else {
+
+                var deletesection = await model.RemoveAddressQuery(ua_id);
+
+            }
         }
 
 

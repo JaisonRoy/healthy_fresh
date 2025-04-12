@@ -3,7 +3,6 @@ var nodemailer = require('nodemailer');
 var moment = require('moment')
 var bcrypt = require('bcrypt')
 
-
 module.exports.ForgotPassword = async (req, res) => {
     try {
 

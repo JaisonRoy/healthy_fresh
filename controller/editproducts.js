@@ -13,8 +13,8 @@ module.exports.EditProduct = async (req, res) => {
                     data: err,
                 });
             }
-            let { p_id, category, name, price, discount_price, description, stocks } = fields
-            if (!p_id || !category || !name || !price || !discount_price || !description || !stocks) {
+            let { p_id, category, sub_category, name, price, discount_price, unit, description, stocks } = fields
+            if (!p_id) {
                 return res.send({
                     result: false,
                     messaage: "insufficient parameter"
@@ -30,6 +30,13 @@ module.exports.EditProduct = async (req, res) => {
                         condition = `set p_c_id='${category}' `
                     } else {
                         condition += `,p_c_id='${category}'`
+                    }
+                }
+                if (sub_category) {
+                    if (condition == '') {
+                        condition = `set p_sub_c_id='${sub_category}' `
+                    } else {
+                        condition += `,p_sub_c_id='${sub_category}'`
                     }
                 }
                 if (name) {
@@ -52,6 +59,13 @@ module.exports.EditProduct = async (req, res) => {
                         condition = `set p_discount_price ='${discount_price}' `
                     } else {
                         condition += `,p_discount_price='${discount_price}'`
+                    }
+                }
+                if (unit) {
+                    if (condition == '') {
+                        condition = `set p_unit ='${unit}' `
+                    } else {
+                        condition += `,p_unit ='${unit}'`
                     }
                 }
                 if (description) {

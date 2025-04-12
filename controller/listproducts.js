@@ -3,40 +3,32 @@ var model = require('../model/listproducts');
 
 module.exports.ListProducts = async (req, res) => {
     try {
-        let c_id = req.body.c_id;
+        let { c_id, category_id, sub_category_id } = req.body;
         var condition = ""
         if (c_id) {
-            condition = `where c_id ='${c_id}'`
+            condition = `WHERE p.p_id ='${c_id}'`
+        } else if (category_id) {
+            condition = `WHERE p.p_c_id ='${category_id}'`
+
+        } else if (sub_category_id) {
+            condition = `WHERE p.p_sub_c_id ='${sub_category_id}'`
+
         }
-        var categorylist = await model.ListCategory(condition);
-        // console.log(categorylist);
-        let arr = []
-
-        let data = await Promise.all(
-            categorylist.map(async el => {
-                var obj = {}
-                let category_id = el.c_id
-                // console.log(category_id);
-                var productlist = await model.ProductList(category_id);
-                obj[el.c_name] = productlist
-                // console.log(obj);
-                arr.push(obj)
+        var productlist = await model.ProductList(condition);
 
 
-            })
-        )
-        // console.log(data);
+        console.log(productlist);
 
-        if (categorylist.length > 0) {
+        if (productlist.length > 0) {
             return res.send({
                 result: true,
                 message: "data retrived",
-                list: arr
+                list: productlist
             })
         } else {
             return res.send({
                 result: false,
-                message: " failed to retrive data"
+                message: "failed to retrive data"
             })
         }
     } catch (error) {

@@ -8,8 +8,11 @@ module.exports.ListCategory = async (condition) => {
     return data;
 }
 
-module.exports.ProductList = async (category_id) => {
-    var Query = `select * from products where p_c_id = ?`;
-    var data = query(Query, [category_id])
+module.exports.ProductList = async (condition) => {
+    var Query = `SELECT p.*,c.*,sc.*
+FROM products p
+LEFT JOIN category c ON p.p_c_id = c.c_id
+LEFT JOIN sub_category sc ON p.p_sub_c_id = sc.sc_id  ${condition}`;
+    var data = query(Query, [condition])
     return data;
 }

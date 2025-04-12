@@ -80,6 +80,9 @@ route.post('/add/order', AddOrder)
 var { ListOrder } = require('./controller/listorder')
 route.post('/list/order', ListOrder)
 
+var { CancelOrder } = require('./controller/cancelorder')
+route.post('/cancel/order', CancelOrder)
+
 var { DeliveryStatus } = require('./controller/deliverystatus')
 route.post('/delivery-status', DeliveryStatus)
 
@@ -88,5 +91,8 @@ route.post('/add/subcategory', verifyToken, AddSubCategory)
 route.put('/edit/subcategory', verifyToken, EditSubCategory)
 route.get('/subcategory', verifyToken, ListSubCategory)
 route.delete('/delete/subcategory', verifyToken, DeleteSubCategory)
+
+var { SetDefultAddress } = require('./controller/setDefaultAddress')
+route.post('/set/default-address', SetDefultAddress)
 
 module.exports = route;

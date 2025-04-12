@@ -133,7 +133,7 @@ module.exports.ListSubCategory = async (req, res) => {
         let { category_id } = req.headers
         let condition = ''
         if (category_id) {
-            condition = `ehere sc_category_id ='${category_id}'`
+            condition = `where sc_category_id ='${category_id}'`
         }
         let subCategories = await model.ListAllSubcategories(condition)
         if (subCategories.length > 0) {

@@ -20,7 +20,7 @@ module.exports.EditProfile = async (req, res) => {
                     messaage: "insufficient parameter"
                 })
             }
-            var checkuser = await model.CheckUserQuery(u_id)
+            let checkuser = await model.CheckUserQuery(u_id)
 
             if (checkuser.length > 0) {
 

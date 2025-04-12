@@ -2,11 +2,11 @@ var model = require('../model/editaddress')
 
 module.exports.EditAddress = async (req, res) => {
     try {
-        let { ua_id, name, email, mobile, address, city, zipcode } = req.body
+        let { ua_id, name, email, mobile, address, state, district, city, landmark, zipcode } = req.body
         if (!ua_id) {
             return res.send({
                 result: false,
-                message: "insufficient parameters"
+                message: "Address id is required "
             })
         }
         var condition = ''
@@ -38,11 +38,32 @@ module.exports.EditAddress = async (req, res) => {
                 condition += ` , ua_address = '${address}'`
             }
         }
+        if (state) {
+            if (condition == '') {
+                condition = ` set ua_address = '${state}'`
+            } else {
+                condition += ` , ua_address = '${state}'`
+            }
+        }
+        if (district) {
+            if (condition == '') {
+                condition = ` set ua_district = '${district}'`
+            } else {
+                condition += ` , ua_district = '${district}'`
+            }
+        }
         if (city) {
             if (condition == '') {
                 condition = ` set ua_city = '${city}'`
             } else {
                 condition += ` , ua_city = '${city}'`
+            }
+        }
+        if (landmark) {
+            if (condition == '') {
+                condition = ` set ua_landmark = '${landmark}'`
+            } else {
+                condition += ` , ua_landmark = '${landmark}'`
             }
         }
         if (zipcode) {
