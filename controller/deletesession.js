@@ -6,9 +6,12 @@ module.exports.DeleteSection = async (req, res) => {
         var c_id = req.body.c_id;
         var b_id = req.body.b_id;
         var p_id = req.body.p_id;
-
         var ct_id = req.body.ct_id;
         var ua_id = req.body.ua_id;
+        var u_id = req.body.u_id;
+        var v_id = req.body.v_id;
+
+
 
         if (c_id) {
             let checkcategory = await model.CheckCategoryQuery(c_id);
@@ -77,6 +80,34 @@ module.exports.DeleteSection = async (req, res) => {
             } else {
 
                 var deletesection = await model.RemoveAddressQuery(ua_id);
+
+            }
+        }
+
+        if (u_id) {
+            let checkuser = await model.CheckUserQuery(u_id);
+            if (checkuser.length == 0) {
+                return res.send({
+                    result: false,
+                    message: "user not found"
+                });
+            } else {
+
+                var deletesection = await model.RemoveUserQuery(u_id);
+
+            }
+        }
+
+        if (v_id) {
+            let checkvendor = await model.CheckVendorQuery(v_id);
+            if (checkvendor.length == 0) {
+                return res.send({
+                    result: false,
+                    message: "vendor not found"
+                });
+            } else {
+
+                var deletesection = await model.RemoveVendorQuery(v_id);
 
             }
         }

@@ -61,3 +61,27 @@ module.exports.RemoveAddressQuery = async (ua_id) => {
     return data;
 };
 //------------------------------------------------------
+
+module.exports.CheckUserQuery = async (u_id) => {
+    var Query = `select * from user where u_id = ?`;
+    var data = await query(Query, [u_id]);
+    return data;
+}
+module.exports.RemoveUserQuery = async (u_id) => {
+    var Query = `DELETE FROM user WHERE u_id=?`;
+    var data = await query(Query, [u_id]);
+    return data;
+};
+//------------------------------------------------------
+
+module.exports.CheckVendorQuery = async (v_id) => {
+    var Query = `select * from vendors where v_id = ?`;
+    var data = await query(Query, [v_id]);
+    return data;
+}
+module.exports.RemoveVendorQuery = async (v_id) => {
+    var Query = `DELETE FROM vendors WHERE v_id=?`;
+    var data = await query(Query, [v_id]);
+    return data;
+};
+//------------------------------------------------------

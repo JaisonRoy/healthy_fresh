@@ -11,6 +11,9 @@ route.post('/login', Login)
 var { AdminLogin } = require('./controller/adminlogin')
 route.post('/admin-login', AdminLogin)
 
+var { ListUsers } = require('./controller/listusers')
+route.get('/list/users', ListUsers)
+
 var { ListProducts } = require('./controller/listproducts')
 route.post('/list/products', ListProducts)
 
@@ -94,5 +97,14 @@ route.delete('/delete/subcategory', verifyToken, DeleteSubCategory)
 
 var { SetDefultAddress } = require('./controller/setDefaultAddress')
 route.post('/set/default-address', SetDefultAddress)
+
+var { AddVendor } = require('./controller/addvendor')
+route.post('/add/vendor', AddVendor)
+
+var { ListVendors } = require('./controller/listvendors')
+route.get('/list/vendor', ListVendors)
+
+var { EditAddress } = require('./controller/editvendor')
+route.put('/edit/vendor', EditAddress)
 
 module.exports = route;
