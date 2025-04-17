@@ -51,6 +51,17 @@ module.exports.EditProfile = async (req, res) => {
 
                 if (condition !== '') {
                     var Editprofile = await model.ChangeProfileInfo(condition, u_id)
+                    if (Editprofile.affectedRows) {
+                        return res.send({
+                            result: true,
+                            message: "profile updated successfully"
+                        })
+                    } else {
+                        return res.send({
+                            result: false,
+                            message: "failed to update profile"
+                        })
+                    }
                 }
 
                 // if (files.image) {
@@ -66,17 +77,7 @@ module.exports.EditProfile = async (req, res) => {
                 // console.log(name, price, image, description, stocks, quantity, unit);
 
                 // var Insertprofileimage = await model.Updateimage(imagepath, u_id)
-                if (Editprofile.affectedRows) {
-                    return res.send({
-                        result: true,
-                        message: "profile updated successfully"
-                    })
-                } else {
-                    return res.send({
-                        result: false,
-                        message: "failed to update profile"
-                    })
-                }
+               
 
                 // } else {
                 //     return res.send({
