@@ -40,9 +40,9 @@ module.exports.EditAddress = async (req, res) => {
         }
         if (state) {
             if (condition == '') {
-                condition = ` set ua_address = '${state}'`
+                condition = ` set ua_state = '${state}'`
             } else {
-                condition += ` , ua_address = '${state}'`
+                condition += ` , ua_state = '${state}'`
             }
         }
         if (district) {
