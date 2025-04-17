@@ -85,3 +85,21 @@ module.exports.RemoveVendorQuery = async (v_id) => {
     return data;
 };
 //------------------------------------------------------
+
+module.exports.CheckOrderQuery = async (od_id) => {
+    var Query = `select * from orders where od_id = ?`;
+    var data = await query(Query, [od_id]);
+    return data;
+}
+module.exports.RemoveOrderQuery = async (od_id) => {
+    var Query = `DELETE FROM orders WHERE od_id=?`;
+    var data = await query(Query, [od_id]);
+    return data;
+};
+
+module.exports.RemoveOrdeProductQuery = async (od_id) => {
+    var Query = `DELETE FROM order_product WHERE op_order_id=?`;
+    var data = await query(Query, [od_id]);
+    return data;
+};
+//------------------------------------------------------

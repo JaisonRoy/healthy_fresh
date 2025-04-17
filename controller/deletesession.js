@@ -10,6 +10,8 @@ module.exports.DeleteSection = async (req, res) => {
         var ua_id = req.body.ua_id;
         var u_id = req.body.u_id;
         var v_id = req.body.v_id;
+        var od_id = req.body.od_id;
+
 
 
 
@@ -40,8 +42,6 @@ module.exports.DeleteSection = async (req, res) => {
 
             }
         }
-
-
 
         if (p_id) {
             let checkproduct = await model.CheckproductQuery(p_id);
@@ -109,6 +109,28 @@ module.exports.DeleteSection = async (req, res) => {
 
                 var deletesection = await model.RemoveVendorQuery(v_id);
 
+            }
+        }
+
+        if (od_id) {
+            let checkorder = await model.CheckOrderQuery(od_id);
+            if (checkorder.length == 0) {
+                return res.send({
+                    result: false,
+                    message: "order details not found"
+                });
+            } else {
+
+                var deleteorder = await model.RemoveOrderQuery(od_id);
+
+                var deleteorderproduct = await model.RemoveOrdeProductQuery(od_id);
+
+                if (deleteorder.affectedRows > 0 && deleteorderproduct.affectedRows > 0) {
+                    return res.send({
+                        result: true,
+                        message: "delete Order successfully"
+                    })
+                }
             }
         }
 
