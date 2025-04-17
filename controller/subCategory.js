@@ -135,6 +135,7 @@ module.exports.ListSubCategory = async (req, res) => {
         if (category_id) {
             condition = `where sc_category_id ='${category_id}'`
         }
+        console.log("condition : ", condition)
         let subCategories = await model.ListAllSubcategories(condition)
         if (subCategories.length > 0) {
             return res.send({
