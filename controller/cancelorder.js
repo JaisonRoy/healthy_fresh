@@ -28,49 +28,66 @@ module.exports.CancelOrder = async (req, res) => {
                 console.log(checkorder)
 
                 if (checkorder[0].od_payment_method !== 'cash on delivery') {
+
+                    let removeorder = await model.RemoveOrder(order_id);
+
+                    let orderproduct = await model.OrderProductDetails(order_id)
+
+                    orderproduct.forEach = async (el) => {
+                        let product_id = el.op_product_id
+                        let quantity = el.op_quantity
+
+                        let addstock = await model.AddStock(quantity, product_id)
+                    }
+
+                    return res.send({
+                        result: true,
+                        message: "order cancelled successfully"
+                    })
+
                     // var paymentId = checkorder[0].payment_id; // Replace PAYMENT_ID with the actual payment ID
                     // let key_id = "rzp_test_4JJAaipsPAqRRJ"
                     // let key_secret = "Gw6kdV3PCewFzn9kpvWU5zJH"
-                    var requestData = {
-                        "amount": Number(checkorder[0].order_amount) * 100,
-                        "speed": "optimum",
-                        "receipt": "Receipt No." + " " + generateOrderId()
-                    }
-                    var authHeader = {
-                        auth: {
-                            username: key_id,
-                            password: key_secret,
-                        },
-                    };
+                    // var requestData = {
+                    //     "amount": Number(checkorder[0].order_amount) * 100,
+                    //     "speed": "optimum",
+                    //     "receipt": "Receipt No." + " " + generateOrderId()
+                    // }
+                    // var authHeader = {
+                    //     auth: {
+                    //         username: key_id,
+                    //         password: key_secret,
+                    //     },
+                    // };
 
-                    axios.post(`https://api.razorpay.com/v1/payments/${paymentId}/refund`, requestData, authHeader)
-                        .then(async response => {
-                            let removeorder = await model.RemoveOrder(order_id);
+                    // axios.post(`https://api.razorpay.com/v1/payments/${paymentId}/refund`, requestData, authHeader)
+                    //     .then(async response => {
+                    //         let removeorder = await model.RemoveOrder(order_id);
 
-                            let orderproduct = await model.OrderProductDetails(order_id)
+                    //         let orderproduct = await model.OrderProductDetails(order_id)
 
-                            orderproduct.forEach = async (el) => {
-                                let product_id = el.op_product_id
-                                let quantity = el.op_quantity
+                    //         orderproduct.forEach = async (el) => {
+                    //             let product_id = el.op_product_id
+                    //             let quantity = el.op_quantity
 
-                                let addstock = await model.AddStock(quantity, product_id)
-                            }
+                    //             let addstock = await model.AddStock(quantity, product_id)
+                    //         }
 
-                            console.log('Refund successful:', response?.data);
-                            res.send({
-                                result: true,
-                                message: response?.data
-                            })
-                        })
-                        .catch(error => {
+                    //         console.log('Refund successful:', response?.data);
+                    //         res.send({
+                    //             result: true,
+                    //             message: response?.data
+                    //         })
+                    //     })
+                    //     .catch(error => {
 
-                            console.error(error?.response?.data?.error?.description);
-                            res.send({
-                                result: false,
-                                message: error.response ? error.response?.data?.error?.description : error?.message
-                            })
+                    //         console.error(error?.response?.data?.error?.description);
+                    //         res.send({
+                    //             result: false,
+                    //             message: error.response ? error.response?.data?.error?.description : error?.message
+                    //         })
 
-                        });
+                    //     });
                 } else {
                     let removeorder = await model.RemoveOrder(order_id);
 
@@ -281,6 +298,6 @@ module.exports.CancelOrder = async (req, res) => {
     }
 };
 
-const generateOrderId = () => {
-    return randtoken.generate(4, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
-};
+// const generateOrderId = () => {
+//     return randtoken.generate(4, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
+// };

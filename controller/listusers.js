@@ -5,8 +5,6 @@ module.exports.ListUsers = async (req, res) => {
     try {
         var { u_id } = req.headers;
         let condition = ''
-        console.log(u_id, "iddd");
-
         if (u_id) {
             condition = `where u_id = '${u_id}'`
         }
