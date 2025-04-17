@@ -24,7 +24,7 @@ module.exports.Login = async (req, res) => {
                     u_id: checkuser[0].u_id
                 };
                 const token = jwt.sign(payload, SECRET_KEY, {});
-
+                let u_id = checkuser[0]?.u_id
                 let updateusertoken = await model.UpdateUserToken(fcm_token, u_id, role);
 
 
