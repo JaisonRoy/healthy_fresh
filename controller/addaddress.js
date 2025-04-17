@@ -3,7 +3,9 @@ var model = require('../model/addaddress');
 
 module.exports.AddAddress = async (req, res) => {
     try {
-        var { u_id, name, email, mobile, address, state, district, city, landmark, zipcode, type } = req.body
+        var { name, email, mobile, address, state, district, city, landmark, zipcode, type } = req.body
+        let u_id = req.user.u_id
+        console.log(req.user, "jwt");
 
         if (!u_id || !name || !email || !mobile || !address || !state || !district || !city || !landmark || !zipcode || !type) {
             return res.send({

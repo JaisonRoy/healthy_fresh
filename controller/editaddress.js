@@ -3,6 +3,15 @@ var model = require('../model/editaddress')
 module.exports.EditAddress = async (req, res) => {
     try {
         let { ua_id, name, email, mobile, address, state, district, city, landmark, zipcode } = req.body
+        let u_id = req.user.u_id
+        let checkaddress = await model.CheckAddress(ua_id, u_id)
+
+        if (checkaddress.legnth == 0) {
+            return res.send({
+                result: false,
+                message: "address not found"
+            })
+        }
         if (!ua_id) {
             return res.send({
                 result: false,

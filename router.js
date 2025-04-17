@@ -51,7 +51,7 @@ var { ListCart } = require('./controller/listcart')
 route.post('/list/cart', ListCart)
 
 var { AddAddress } = require('./controller/addaddress')
-route.post('/add/address', AddAddress)
+route.post('/add/address', verifyToken, AddAddress)
 
 var { ListAddress } = require('./controller/listaddress')
 route.post('/list/address', ListAddress)

@@ -4,7 +4,7 @@ var jwt = require('jsonwebtoken');
 
 module.exports.Login = async (req, res) => {
     try {
-        var { email, password, role } = req.body;
+        var { email, password, role, fcm_token } = req.body;
 
         if (!email || !password || !role) {
             return res.send({
@@ -24,6 +24,10 @@ module.exports.Login = async (req, res) => {
                     u_id: checkuser[0].u_id
                 };
                 const token = jwt.sign(payload, SECRET_KEY, {});
+
+                let updateusertoken = await model.UpdateUserToken(fcm_token, u_id, role);
+
+
                 return res.send({
                     result: true,
                     message: "logged in successfully",

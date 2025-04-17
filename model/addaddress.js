@@ -3,7 +3,7 @@ var util = require('util');
 var query = util.promisify(db.query).bind(db)
 
 module.exports.AddAddress = async (u_id, name, email, mobile, address, state, district, city, landmark, zipcode, type) => {
-    var Query = `insert into user_address (ua_u_id,ua_name,ua_email,ua_mobile,ua_address,ua_state,ua_district,,ua_city,ua_landmark,ua_zip_code,ua_type) values (?,?,?,?,?,?,?,?,?,?,?)`;
+    var Query = `insert into user_address (ua_u_id,ua_name,ua_email,ua_mobile,ua_address,ua_state,ua_district,ua_city,ua_landmark,ua_zip_code,ua_type) values (?,?,?,?,?,?,?,?,?,?,?)`;
     var data = query(Query, [u_id, name, email, mobile, address, state, district, city, landmark, zipcode, type])
     return data;
 }

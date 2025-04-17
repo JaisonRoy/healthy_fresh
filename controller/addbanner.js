@@ -1,6 +1,7 @@
 var model = require("../model/addbanner");
 var formidable = require("formidable");
 var fs = require("fs");
+let { SendMessage } =require('../util/firebaseConfig')
 
 module.exports.AddBanner = async (req, res) => {
     try {
@@ -34,6 +35,7 @@ module.exports.AddBanner = async (req, res) => {
                         "/uploads/banner/" + files.image.originalFilename;
                     let AddBanner = await model.AddBannerQuery(filepathh, banner_description)
                     console.log(AddBanner.insertId, "AddBanner");
+                    await SendMessage("New Offer", banner_description)
 
                 })
                 return res.send({
