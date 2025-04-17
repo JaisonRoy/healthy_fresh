@@ -6,7 +6,7 @@ module.exports.ListUsers= async (req, res) => {
         var {u_id} = req.headers;
         let condition = ''
         if (u_id) {
-            condition = `where u_id = '${u_id}`
+            condition = `where u_id = '${u_id}'`
         }
         let userlist = await model.ListUsers(condition);
 
