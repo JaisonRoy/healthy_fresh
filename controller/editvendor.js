@@ -2,7 +2,7 @@ var model = require('../model/editvendor')
 
 module.exports.EditAddress = async (req, res) => {
     try {
-        let { v_id, name, mobile, address } = req.body
+        let { v_id, name, mobile, address, v_products } = req.body
         if (!v_id) {
             return res.send({
                 result: false,
@@ -38,6 +38,14 @@ module.exports.EditAddress = async (req, res) => {
                 condition = ` set v_address = '${address}'`
             } else {
                 condition += ` , v_address = '${address}'`
+            }
+        }
+
+        if (v_products) {
+            if (condition == '') {
+                condition = ` set v_products = '${v_products}'`
+            } else {
+                condition += ` , v_products = '${v_products}'`
             }
         }
 
