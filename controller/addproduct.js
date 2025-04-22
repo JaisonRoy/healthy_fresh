@@ -36,7 +36,9 @@ module.exports.AddProducts = async (req, res) => {
                         let imagepath =
                             "/uploads/product/" + files.image.originalFilename;
                         let Addproduct = await model.AddProductQuery(category, subcategory, name, imagepath, price, discount_price, unit, description, stocks)
-                        console.log(Addproduct.insertId, "Addproduct");
+                        console.log(Addproduct.insertId, "Addproduct id");
+                        console.log(Addproduct, "Addproduct");
+
 
                     })
                     return res.send({

@@ -15,9 +15,16 @@ module.exports.ListProducts = async (req, res) => {
 
         }
         var productlist = await model.ProductList(condition);
+        // let data = await Promise.all(productlist.map(async = (el) => {
+        //     let d_price = el.p_discount_price
 
+        //     if (d_price === 0 || '') {
+        //         el.p_discount_price = 'NULL'
+        //     }
+        //     return el
+        // }))
 
-        console.log(productlist);
+        // console.log(productlist);
 
         if (productlist.length > 0) {
             return res.send({
