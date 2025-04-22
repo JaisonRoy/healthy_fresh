@@ -36,19 +36,26 @@ module.exports.AddProducts = async (req, res) => {
                         let imagepath =
                             "/uploads/product/" + files.image.originalFilename;
                         let Addproduct = await model.AddProductQuery(category, subcategory, name, imagepath, price, discount_price, unit, description, stocks)
-                        console.log(Addproduct.insertId, "Addproduct id");
                         console.log(Addproduct, "Addproduct");
+                        if (Addproduct.affectedRows > 0) {
+                            return res.send({
+                                result: true,
+                                message: "product added successfully"
+                            });
 
+                        } else {
+                            return res.send({
+                                result: false,
+                                message: "Failed to added product"
+                            });
+                        }
 
                     })
-                    return res.send({
-                        result: true,
-                        message: "product added successfully"
-                    });
+
 
                 } else {
                     return res.send({
-                        result: true,
+                        result: false,
                         message: "image is required"
                     })
 
