@@ -24,7 +24,7 @@ module.exports.ListAddress = async (req, res) => {
             } else {
                 return res.send({
                     result: false,
-                    message: "data not found",
+                    message: "Address not found",
                 });
             }
         } else {

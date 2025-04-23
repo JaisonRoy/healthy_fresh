@@ -35,7 +35,7 @@ module.exports.ListProducts = async (req, res) => {
         } else {
             return res.send({
                 result: false,
-                message: "failed to retrive data"
+                message: "No Product Available"
             })
         }
     } catch (error) {

@@ -15,7 +15,7 @@ module.exports.ListBanner = async (req, res) => {
         } else {
             return res.send({
                 result: false,
-                message: "data not found",
+                message: "Banner not found",
             });
         }
     } catch (error) {
