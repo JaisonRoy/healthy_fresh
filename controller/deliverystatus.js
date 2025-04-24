@@ -32,3 +32,36 @@ module.exports.DeliveryStatus = async (req, res) => {
 
     }
 }
+
+module.exports.PaymentStatus = async (req, res) => {
+    try {
+        var { payment_status, order_id } = req.body;
+        if (!payment_status || !order_id) {
+            return res.send({
+                result: false,
+                message: "insufficent parameter"
+            })
+        }
+        let PaymentStatus = await model.PaymentStatusQuery(payment_status, order_id);
+
+        if (PaymentStatus.affectedRows) {
+            return res.send({
+                result: true,
+                message: "Payment status changed",
+            });
+        } else {
+            return res.send({
+                result: false,
+                message: "failed to change Payment status",
+            });
+        }
+    } catch (error) {
+
+        return res.send({
+            result: false,
+            message: error.message,
+        });
+
+
+    }
+}

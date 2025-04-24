@@ -145,7 +145,7 @@ module.exports.ListSubCategory = async (req, res) => {
         } else {
             return res.send({
                 result: false,
-                message: "Failed to fetch data"
+                message: "Sub category not found"
             })
         }
     } catch (error) {

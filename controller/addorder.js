@@ -34,19 +34,30 @@ module.exports.AddOrder = async (req, res) => {
                 await Promise.all(
                     products.map(async (element) => {
 
-                        var insertproduct = await model.ProductInsert(
-                            addorder.insertId,
-                            element)
+                        var insertproduct = await model.ProductInsert(addorder.insertId, element)
 
                         console.log(element.product_id);
 
                         let checkproduct = await model.getproduct(element.product_id);
                         // console.log(checkproduct);
                         if (checkproduct.length > 0) {
+                            let stockStr = checkproduct[0]?.p_stocks;
+                            let quantity = element.quantity;
 
-                            var balancestock = checkproduct[0].p_stocks - element.quantity
-                            console.log(balancestock);
-                            let addstock = await model.AddStocks(balancestock, element.product_id)
+                            // Extract numeric value and unit from the stock string
+                            let stockMatch = stockStr.match(/^([\d.]+)\s*(\D+)$/);
+
+                            let stockNum = parseFloat(stockMatch[1]); //  15
+                            let unit = stockMatch[2]; // kg/gm
+
+                            // Subtract quantity
+                            let balanceStock = stockNum - quantity;
+
+                            // Add the unit back
+                            let finalStock = balanceStock + unit;
+
+                            console.log(finalStock);
+                            let addstock = await model.AddStocks(finalStock, element.product_id)
 
                             tablehtml += `<tr>
                         <td>${checkproduct[0].p_name}</td>

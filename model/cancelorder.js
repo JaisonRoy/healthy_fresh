@@ -29,8 +29,13 @@ module.exports.Getaddress = async (address_id) => {
     return data;
 }
 
-module.exports.AddStock = async (quantity, product_id) => {
-    var Query = `UPDATE products SET p_stocks = p_stocks + ${quantity} WHERE p_id = ?`;
-    var data = query(Query, [product_id]);
+module.exports.AddStock = async (finalStock, product_id) => {
+    var Query = `UPDATE products SET p_stocks = ? WHERE p_id = ?`;
+    var data = query(Query, [finalStock, product_id]);
     return data;
 };
+module.exports.getproduct = async (product_id) => {
+    var Query = `select * from products where p_id = ?`
+    var data = await query(Query, [product_id]);
+    return data;
+}

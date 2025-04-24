@@ -24,6 +24,13 @@ module.exports.CancelOrder = async (req, res) => {
                         message: "This order cannot be cancelled,Product is already delivered "
                     })
                 }
+
+                if (checkorder[0]?.od_status === 'cancelled') {
+                    return res.send({
+                        result: false,
+                        message: "This order already cancelled "
+                    })
+                }
                 var order_date = checkorder[0]?.od_created_at
                 console.log(checkorder)
 
@@ -33,11 +40,27 @@ module.exports.CancelOrder = async (req, res) => {
 
                     let orderproduct = await model.OrderProductDetails(order_id)
 
-                    orderproduct.forEach = async (el) => {
+                    for (let el of orderproduct) {
                         let product_id = el.op_product_id
                         let quantity = el.op_quantity
 
-                        let addstock = await model.AddStock(quantity, product_id)
+                        let checkproduct = await model.getproduct(product_id);
+                        // console.log(checkproduct);
+                        let stockStr = checkproduct[0]?.p_stocks;
+
+                        // Extract numeric value and unit from the stock string
+                        let stockMatch = stockStr.match(/^([\d.]+)\s*(\D+)$/);
+
+                        let stockNum = parseFloat(stockMatch[1]); //  15
+                        let unit = stockMatch[2]; // kg/gm
+
+                        // Subtract quantity
+                        let balanceStock = stockNum + quantity;
+
+                        // Add the unit back
+                        let finalStock = balanceStock + unit;
+
+                        let addstock = await model.AddStock(finalStock, product_id)
                     }
 
                     return res.send({
@@ -94,13 +117,27 @@ module.exports.CancelOrder = async (req, res) => {
                     let orderproduct = await model.OrderProductDetails(order_id)
                     console.log(orderproduct, "ooooo");
 
-                    orderproduct.forEach = async (el) => {
+                    for (let el of orderproduct) {
                         let product_id = el.op_product_id
                         let quantity = el.op_quantity
-                        console.log(loop);
+                        let checkproduct = await model.getproduct(product_id);
+                        console.log(checkproduct, "cancel pro");
+                        let stockStr = checkproduct[0]?.p_stocks;
 
-                        let addstock = await model.AddStock(quantity, product_id)
-                        console.log(addstock, "prooooooooo");
+                        // Extract numeric value and unit from the stock string
+                        let stockMatch = stockStr.match(/^([\d.]+)\s*(\D+)$/);
+
+                        let stockNum = parseFloat(stockMatch[1]); //  15
+                        let unit = stockMatch[2]; // kg/gm
+
+                        // Subtract quantity
+                        let balanceStock = stockNum + quantity;
+
+                        // Add the unit back
+                        let finalStock = balanceStock + unit;
+                        console.log(finalStock, "stock");
+
+                        let addstock = await model.AddStock(finalStock, product_id)
 
                     }
 

@@ -8,3 +8,10 @@ module.exports.DeliveryStatusQuery = async (delivery_status, order_id) => {
     return data;
 
 }
+
+module.exports.PaymentStatusQuery = async (payment_status, order_id) => {
+    var Query = `update orders set od_payment_status = ? where od_id = ? `;
+    var data = query(Query, [payment_status, order_id]);
+    return data;
+
+}
