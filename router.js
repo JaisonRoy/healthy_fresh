@@ -107,4 +107,7 @@ route.get('/list/vendor', ListVendors)
 var { EditAddress } = require('./controller/editvendor')
 route.put('/edit/vendor', EditAddress)
 
+var { PaymentStatus } = require('./controller/deliverystatus')
+route.post('/payment-status', PaymentStatus)
+
 module.exports = route;
