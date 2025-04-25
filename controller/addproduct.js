@@ -14,7 +14,7 @@ module.exports.AddProducts = async (req, res) => {
                 });
             }
             var { category, subcategory, name, price, discount_price, unit, description, stocks } = fields;
-            if (!category || !subcategory || !name || !price || !unit || !stocks) {
+            if (!category || !name || !price || !unit || !stocks) {
                 return res.send({
                     result: false,
                     message: "insufficent parameter"
