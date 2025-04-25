@@ -133,6 +133,7 @@ module.exports.DeleteSection = async (req, res) => {
                 }
             }
         }
+        console.log(deletesection,"delete");
 
 
         if (deletesection.affectedRows > 0) {
